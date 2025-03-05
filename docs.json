@@ -53,7 +53,7 @@
             ]
           },
           {
-            "group": "WhastApp Rest APIs",
+            "group": "WhatsApp Rest APIs",
             "pages": [
               "api-reference/WAAPI/send-audio"
             ]
