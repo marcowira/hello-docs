@@ -51,6 +51,12 @@
               "api-reference/endpoint/create",
               "api-reference/endpoint/delete"
             ]
+          },
+          {
+            "group": "WhastApp Rest APIs",
+            "pages": [
+              "api-reference/WAAPI/send-audio"
+            ]
           }
         ]
       }

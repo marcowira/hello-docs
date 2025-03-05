@@ -128,6 +128,347 @@
           }
         }
       }
+    },
+     "/{whatsapp_business_phone_number_id}/messages": {
+      "post": {
+        "summary": "Send Audio Message",
+        "description": "Send an audio message to a WhatsApp user. Messages can be sent using either\na pre-uploaded media ID (recommended) or a direct link to the audio file.\n\n### Important Notes:\n- Audio files must be under 16MB\n- Only specified audio formats are supported\n- Rate limits apply to message sending\n- Phone numbers must be in E.164 format\n",
+        "operationId": "sendAudioMessage",
+        "parameters": [
+          {
+            "name": "whatsapp_business_phone_number_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{1,}$"
+            },
+            "description": "The ID for the phone number you want to send the message from.\nThis ID is assigned when you register your phone number with WhatsApp Business API.\n",
+            "example": "106540352242922"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "messaging_product",
+                  "recipient_type",
+                  "to",
+                  "type",
+                  "audio"
+                ],
+                "properties": {
+                  "messaging_product": {
+                    "type": "string",
+                    "enum": [
+                      "whatsapp"
+                    ],
+                    "description": "Indicates the messaging service being used. Must be \"whatsapp\"."
+                  },
+                  "recipient_type": {
+                    "type": "string",
+                    "enum": [
+                      "individual"
+                    ],
+                    "description": "Type of recipient. Currently only supports individual recipients.\nGroup messaging is not supported.\n"
+                  },
+                  "to": {
+                    "type": "string",
+                    "description": "WhatsApp user's phone number in E.164 format.\nMust include country code with + prefix.\nSpaces and hyphens will be stripped.\n",
+                    "pattern": "^\\+[1-9]\\d{1,14}$",
+                    "example": "+16505551234"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "audio"
+                    ],
+                    "description": "Message type identifier. Must be \"audio\" for audio messages."
+                  },
+                  "audio": {
+                    "type": "object",
+                    "description": "Audio message content. Can contain either:\n- id: ID of previously uploaded media (recommended)\n- link: URL of audio file (not recommended)\n\nNote: Using pre-uploaded media IDs is strongly recommended for better\nperformance and reliability.\n",
+                    "oneOf": [
+                      {
+                        "required": [
+                          "id"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "link"
+                        ]
+                      }
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID of previously uploaded media file.\nObtain this by first uploading the audio file using the Media API.\n",
+                        "example": "3674626312780147",
+                        "pattern": "^\\d{1,}$"
+                      },
+                      "link": {
+                        "type": "string",
+                        "description": "Public URL of the audio file.\nMust be accessible without authentication.\nNot recommended for production use.\n",
+                        "format": "uri",
+                        "example": "https://www.example.com/audio/file.mp3"
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "using_media_id": {
+                  "summary": "Send message using media ID",
+                  "value": {
+                    "messaging_product": "whatsapp",
+                    "recipient_type": "individual",
+                    "to": "+16505551234",
+                    "type": "audio",
+                    "audio": {
+                      "id": "3674626312780147"
+                    }
+                  }
+                },
+                "using_link": {
+                  "summary": "Send message using audio URL",
+                  "value": {
+                    "messaging_product": "whatsapp",
+                    "recipient_type": "individual",
+                    "to": "+16505551234",
+                    "type": "audio",
+                    "audio": {
+                      "link": "https://www.example.com/audio/file.mp3"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "messaging_product",
+                    "contacts",
+                    "messages"
+                  ],
+                  "properties": {
+                    "messaging_product": {
+                      "type": "string",
+                      "enum": [
+                        "whatsapp"
+                      ],
+                      "description": "Confirms the messaging service used"
+                    },
+                    "contacts": {
+                      "type": "array",
+                      "description": "Information about the message recipient",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "input": {
+                            "type": "string",
+                            "description": "Phone number provided in the request"
+                          },
+                          "wa_id": {
+                            "type": "string",
+                            "description": "WhatsApp ID for the user"
+                          }
+                        }
+                      }
+                    },
+                    "messages": {
+                      "type": "array",
+                      "description": "Information about the sent message",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Unique message identifier.\nUse this ID for tracking message status.\n"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "messaging_product": "whatsapp",
+                  "contacts": [
+                    {
+                      "input": "+16505551234",
+                      "wa_id": "16505551234"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "wamid.HBgLMTY0NjcwNDM1OTUVAgARGBI1RjQyNUE3NEYxMzAzMzQ5MkEA"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "invalid_phone": {
+                    "summary": "Invalid phone number format",
+                    "value": {
+                      "error": {
+                        "code": 40003,
+                        "message": "Invalid phone number format. Use E.164 format with + prefix."
+                      }
+                    }
+                  },
+                  "invalid_media": {
+                    "summary": "Invalid media format",
+                    "value": {
+                      "error": {
+                        "code": 40004,
+                        "message": "Unsupported audio format. Use one of: AAC, AMR, MP3, MP4, OGG"
+                      }
+                    }
+                  },
+                  "file_too_large": {
+                    "summary": "File size exceeds limit",
+                    "value": {
+                      "error": {
+                        "code": 40005,
+                        "message": "Audio file exceeds 16MB size limit"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "error": {
+                    "code": 40100,
+                    "message": "Invalid or expired access token"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "error": {
+                    "code": 40400,
+                    "message": "WhatsApp Business Account not found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "retry_after": {
+                          "type": "integer",
+                          "description": "Seconds to wait before retrying"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "error": {
+                    "code": 42900,
+                    "message": "Rate limit exceeded. See retry_after header.",
+                    "retry_after": 30
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
