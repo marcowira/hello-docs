@@ -23,6 +23,12 @@
     "format": "woff2"
   }
 },
+
+{
+  "style": [
+    "custom.css"
+  ]
+},
   
   "navigation": {
     "tabs": [
