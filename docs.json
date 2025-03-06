@@ -99,8 +99,7 @@
   },
   "logo": {
     "light": "/logo/meta-light.svg",
-    "dark": "/logo/dark.svg",
-    "href": "https://meta.com"
+    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
