@@ -9,6 +9,8 @@
   },
   "favicon": "/favicon.svg",
 
+  "styling": "/style.css",
+
 "fonts": {
   "body": {
     "family": "Optimistic",
