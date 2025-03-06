@@ -1,3 +1,12 @@
+#navbar {
+  background: "#fffff2";
+  padding: 1rem;
+}
+
+footer {
+  margin-top: 2rem;
+}
+
 .logo img {
   max-width: 78px; /* Adjust this value to your desired size */
   height: auto;
