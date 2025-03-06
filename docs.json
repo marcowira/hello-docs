@@ -8,6 +8,22 @@
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
+
+"fonts": {
+  "body": {
+    "family": "Optimistic",
+    "weight": 400,
+    "source": "https://www.llama.com/fonts/Optimistic_Display_W_Rg.woff2",
+    "format": "woff2"
+  },
+  "heading": {
+    "family": "Optimistic",
+    "weight": 700,
+    "source": "https://www.llama.com/fonts/Optimistic_Display_W_Bd.woff2",
+    "format": "woff2"
+  }
+}
+  
   "navigation": {
     "tabs": [
       {
