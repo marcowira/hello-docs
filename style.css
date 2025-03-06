@@ -1,4 +1,6 @@
-.logo img {
-  max-width: 150px;
-  max-height: 50px;
+.logo {
+    max-width: 68px; /* Adjust as needed */
+    max-height: 15px; /* Adjust as needed */
+    width: auto; /* Ensures aspect ratio is maintained */
+    height: auto; /* Ensures aspect ratio is maintained */
 }
