@@ -27,6 +27,39 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "WhatsApp API",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "development"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+            ]
+          },
+          {
+            "group": "WhatsApp Business Accounts",
+            "pages": [
+            ]
+          },
+          {
+            "group": "Phone numbers",
+            "pages": [
+            ]
+          },
+          {
+            "group": "Messaging",
+            "pages": [
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Guides",
         "groups": [
           {
