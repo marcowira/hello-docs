@@ -32,13 +32,11 @@
           {
             "group": "Get Started",
             "pages": [
-              "introduction",
-              "quickstart",
-              "development"
+              "cloud-api/landing-page"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Webhooks",
             "pages": [
               "essentials/markdown",
               "essentials/code",
