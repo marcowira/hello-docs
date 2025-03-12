@@ -3,10 +3,10 @@
 //Setup facebook sdk
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '{your-app-id}',
+      appId      : '34302297544701',
       cookie     : true,
       xfbml      : true,
-      version    : '{api-version}'
+      version    : 'v22.0'
     });
       
     FB.AppEvents.logPageView();   
