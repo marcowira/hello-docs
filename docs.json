@@ -94,7 +94,10 @@
           "icon": "newspaper"
         }
       ]
-    }
+    },
+    "pages" : [
+      "introduction"
+    ]
   },
   "logo": {
     "light": "/logo/meta-light.svg",
